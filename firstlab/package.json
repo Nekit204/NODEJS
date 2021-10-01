@@ -1,0 +1,16 @@
+{
+  "name": "firstlab",
+  "version": "1.0.0",
+  "description": "",
+  "main": "Scripts/Hello.js",
+  "scripts": {
+    "start": "node Hello.js",
+    "dev": "nodemon Hello.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^2.0.12"
+  }
+}
