@@ -1,13 +1,17 @@
 let http=require('http');
 let fs=require('fs');
+const nodemailer=require('nodemailer');
 const { parse } = require('querystring');
 const { send }=require('./m0603');
+const testpack=require('absahdbhsbchx');
 const sendmail = require("sendmail");
 http.createServer((req,res)=>{
+
 
     if(require('url').parse(req.url).pathname==="/"&&req.method==="GET")
     {
        res.end(fs.readFileSync("./page.html"));
+       send("Hello");
     }
     else if(req.method==="POST")
     {
@@ -15,14 +19,18 @@ http.createServer((req,res)=>{
        req.on('data',chunk => {body+=chunk.toString()})
        req.on('end',()=>{
            let info=parse(body);
-           sendmail({
+           let transporter = nodemailer.createTransport({
+               service:'gmail',
+               auth: {
+                   user:'*************************' ,
+                   pass: '***************************8'
+               },
+           });
+           transporter.sendMail({
                from: info.from,
                to: info.to,
-               subject: 'Lab6',
-               html: info.message
-           }, function (err, reply){
-               console.log(err && err.stack);
-               console.dir(reply);
+               subject: "LABTEST",
+               text: info.message,
            });
            res.end("from:"+info.from+";" +
                "to:"+info.to+";" +
@@ -32,7 +40,8 @@ http.createServer((req,res)=>{
     }
     else if(require('url').parse(req.url).pathname==="/send")
     {
-        send("Sup!");
+       // send("Sup!");
+        testpack.send("Sup!");
     }
 
 }).listen(3000);
