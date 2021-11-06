@@ -1,0 +1,19 @@
+{
+  "name": "lab8",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "multiparty": "^4.2.2",
+    "xml2js": "^0.4.23"
+  },
+  "dependencies": {
+    "xmlbuilder": "^15.1.1"
+  }
+}
