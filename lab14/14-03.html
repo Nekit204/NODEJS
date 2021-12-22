@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<style>
+    #jsonBody
+    {
+        width:500px;
+        height: 300px;
+    }
+</style>
+<body>
+<h1>POSTMAN</h1>
+<input type="text" id="tabl" placeholder="Enter name of table"/>
+<br/>
+<textarea id="jsonBody" placeholder="Enter json body"></textarea>
+<br/>
+<button onclick="get()" >get</button>
+<button onclick="post()" >post</button>
+<button onclick="update()" value="put">update</button>
+<br>
+<input type="text" id="id" placeholder="ID"/>
+<br>
+<button onclick="loadById()">loadById</button>
+<button onclick="del()" value="delete">delete</button>
+<script>
+    let jsonBody;
+    let ID;
+    let currentTable;
+    let jsonAnswer;
+
+    function get() {
+        currentTable =document.getElementById("tabl").value;
+        console.log('get');
+        fetch(`http://localhost:3000/api/${currentTable}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            }
+        }).then(res => {
+            return res.json();
+        }).then(data => {
+            console.log(data);
+         })
+    }
+
+    function del() {
+        currentTable =document.getElementById("tabl").value;
+        ID =document.getElementById("id").value;
+        fetch(`http://localhost:3000/api/${currentTable}/${ID}`, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": 'application/json',
+                "Accept": 'application/json'
+            }
+
+        }).then(res => {
+            return res.json();
+        }).then((data) => {
+            console.log(data);
+        })
+    }
+
+    function update() {
+        currentTable="";
+        currentTable =document.getElementById("tabl").value;
+        console.log(currentTable);
+        jsonBody=document.getElementById("jsonBody").value;
+        console.log(jsonBody);
+        fetch(`http://localhost:3000/api/${currentTable}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": 'application/json',
+                "Accept": 'application/json'
+            },
+            body: jsonBody
+        }).then(res => {
+            return res.json();
+        }).then((data) => {
+            console.log(data);
+        })
+    }
+
+
+
+    function post() {
+        currentTable="";
+        currentTable =document.getElementById("tabl").value;
+        console.log(currentTable);
+        jsonBody=document.getElementById("jsonBody").value;
+        console.log(jsonBody);
+        fetch(`http://localhost:3000/api/${currentTable}`, {
+            method: "POST",
+            headers: {
+                "Content-Type": 'application/json',
+                "Accept": 'application/json'
+            },
+            body: jsonBody
+        }).then(res => {
+            return res.json();
+        }).then((data) => {
+            console.log(data);
+        })
+    }
+
+    function loadById()
+    {
+        let keys;
+        let values;
+        //jsonAnswer.innerHTML="";
+        currentTable =document.getElementById("tabl").value;
+        console.log('get');
+        let result_str;
+        ID =document.getElementById("id").value;
+        fetch(`http://localhost:3000/api/${currentTable}/${ID}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            }
+        }).then(res => {
+            return res.json();
+        }).then(data => {
+           console.log(data);
+           result_str="";
+            data.forEach(el => {
+                keys = Object.keys(el);
+                values = Object.values(el);
+            })
+            console.log(keys);
+
+            result_str+="{\n"
+            for (let i = 0; i < keys.length; i++) {
+                result_str+="\"";
+                result_str+= keys[i] + "\": ";
+                result_str+="\"";
+                result_str+= values[i]+"\"";
+                if(i!==(keys.length-1)) {
+                    result_str+=",\n";
+                }
+            }
+            result_str+="\n}"
+            document.getElementById("jsonBody").value=result_str;
+            console.log(result_str);
+        })
+
+
+
+
+    }
+
+
+</script>
+
+</body>
+</html>
